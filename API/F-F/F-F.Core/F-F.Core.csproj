@@ -7,4 +7,16 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Azure.Security.KeyVault.Keys" Version="4.6.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.10" />
+      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.14.0" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\F-F.AuthDatabase\F-F.AuthDatabase.csproj" />
+      <ProjectReference Include="..\F-F.Database\F-F.Database.csproj" />
+    </ItemGroup>
+
 </Project>
