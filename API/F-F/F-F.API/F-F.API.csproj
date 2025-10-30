@@ -26,8 +26,6 @@
       <ProjectReference Include="..\F-F.Core\F-F.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\\F-F.Core\\F-F.Core.csproj" />
-  </ItemGroup>
+  
 
 </Project>

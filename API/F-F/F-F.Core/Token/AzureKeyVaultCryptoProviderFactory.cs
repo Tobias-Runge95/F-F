@@ -1,7 +1,7 @@
 ﻿using Azure.Security.KeyVault.Keys.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 
-namespace WebWorkPlace.Core.Token;
+namespace F_F.Core.Token;
 
 public class AzureKeyVaultCryptoProviderFactory : CryptoProviderFactory
 {

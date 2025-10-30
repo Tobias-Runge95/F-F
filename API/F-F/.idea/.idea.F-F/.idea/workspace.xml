@@ -9,22 +9,70 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20d281a8-f1fe-4b2b-bc69-b67755e0de34" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/F-F.AuthDatabase/F-F.AuthDatabase.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.F-F/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.F-F/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.API/Auth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.API/Auth.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.API/F-F.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.API/F-F.API.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.AuthDatabase/AuthDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.AuthDatabase/AuthDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.AuthDatabase/Models/Role.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.AuthDatabase/Models/Role.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.AuthDatabase/Models/RoleClaim.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.AuthDatabase/Models/RoleClaim.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.AuthDatabase/Models/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.AuthDatabase/Models/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.AuthDatabase/Models/UserClaim.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.AuthDatabase/Models/UserClaim.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.AuthDatabase/Models/UserRole.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.AuthDatabase/Models/UserRole.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.AuthDatabase/Models/UserToken.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.AuthDatabase/Models/UserToken.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.Core/F-F.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.Core/F-F.Core.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.Core/Identity/AuthenticationManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.Core/IdentityManager/AuthenticationManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.Core/Identity/RoleClaimManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.Core/Identity/RoleManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.Core/IdentityManager/RoleManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.Core/Identity/UserManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.Core/IdentityManager/UserManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.Core/Token/AzureKeyVaultCryptoProviderFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.Core/Token/AzureKeyVaultCryptoProviderFactory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.Core/Token/AzureKeyVaultSignatureProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.Core/Token/AzureKeyVaultSignatureProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/F-F.Core/Token/TokenService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/F-F.Core/Token/TokenService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DpaMonitoringSettings">
+    <option name="firstShow" value="false" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/F-F.AuthDatabase/AuthDbContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1622b8f95d27187bc1fb39bac49bd64e928773df4fda6fcf6271680be54a2/UserManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4c2f36bb24b4a6a0bab2298023c8c8e87198654bd5240582784f93bfaa1d04c/RoleManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/83e91dece2a44ebac8dd1362114111598bced18cf67befa613f34c6abb94e651/IUserStore.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/cb9b5fcb4f89fda1f6aae5d7cb7f32231660d0db3f7539f7321950aeeca84/IRoleStore.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ce37be1a06b16c6faa02038d2cc477dd3bca5b217ceeb41c5f2ad45c1bf9/ServiceProvider.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/eaf3bbcf10f582a8c54a966a80d94cae122854790cad415a259e324da271ea6/RoleStore.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f6f937e7fde51c3ca061c59112cdd35b76a72e9ef8821ac361c6ef71e90ea88/ControllerEndpointRouteBuilderExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.API/Auth.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.API/Controller/AuthenticationController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.API/Controller/TestController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.API/Controller/UserController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.API/KeyVault.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Exceptions/InvalidCredentialsException.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Exceptions/InvalidTokenException.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Exceptions/NotFoundException.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Exceptions/TokenExpiredException.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/PrincipalProvider.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Repositories/BaseAuthRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Repositories/RoleRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Repositories/UserRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Requests/Auth/LoginRequest.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Requests/Auth/RenewTokenRequest.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Requests/Role/CreateRoleRequest.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Requests/User/CreateUserRequest.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Requests/User/UpdateUserRequest.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Responses/Authentication/LoginResponse.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Responses/Authentication/RenewTokenResponse.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/F-F.Core/Startup.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="34bY1MvrqLEvuGAkqEH7yDyGrje" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -33,20 +81,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.F-F.API: http.executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.F-F.API: http">
     <configuration name="F-F.API: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/F-F.API/F-F.API.csproj" />
@@ -89,6 +139,13 @@
       <option name="presentableId" value="Default" />
       <updated>1761483523174</updated>
       <workItem from="1761483524292" duration="3628000" />
+      <workItem from="1761635993475" duration="2527000" />
+      <workItem from="1761644942953" duration="15456000" />
+      <workItem from="1761760624757" duration="12850000" />
+      <workItem from="1761849841549" duration="1292000" />
+      <workItem from="1761851168344" duration="1772000" />
+      <workItem from="1761856034314" duration="2179000" />
+      <workItem from="1761863595522" duration="1084000" />
     </task>
     <servers />
   </component>

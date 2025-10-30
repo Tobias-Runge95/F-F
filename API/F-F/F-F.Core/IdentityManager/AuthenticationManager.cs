@@ -1,16 +1,13 @@
 ﻿using System.Security.Claims;
+using F_F.Core.Exceptions;
 using F_F.Core.Requests.Auth;
 using F_F.Core.Responses.Authentication;
+using F_F.Core.Token;
+using F_F.Database;
+using F_F.Database.Models;
 using Microsoft.EntityFrameworkCore;
-using SharedLibrary.Exceptions;
-using WebWorkPlace.Core.MediatR.Commands.Authentication;
-using WebWorkPlace.Core.Repositories;
-using WebWorkPlace.Core.Response;
-using WebWorkPlace.Core.Token;
-using WebWorkPlace.Database;
-using WebWorkPlace.Database.Models;
 
-namespace WebWorkPlace.Core.Identity;
+namespace F_F.Core.IdentityManager;
 
 public interface IAuthenticationManager
 {
@@ -24,12 +21,14 @@ public class AuthenticationManager : IAuthenticationManager
     private readonly UserManager _userManager;
     private readonly TokenService _tokenService;
     private readonly AuthDbContext _dbContext;
+    private readonly IPrincipalProvider _principalProvider;
 
-    public AuthenticationManager(UserManager userManager, TokenService tokenService, AuthDbContext dbContext)
+    public AuthenticationManager(UserManager userManager, TokenService tokenService, AuthDbContext dbContext, IPrincipalProvider principalProvider)
     {
         _userManager = userManager;
         _tokenService = tokenService;
         _dbContext = dbContext;
+        _principalProvider = principalProvider;
     }
 
     public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest, CancellationToken cancellationToken)
@@ -55,11 +54,12 @@ public class AuthenticationManager : IAuthenticationManager
 
     public async Task<RenewTokenResponse> RenewTokenAsync(RenewTokenRequest renewTokenRequest, CancellationToken cancellationToken)
     {
-        var dbToken = await _dbContext.UserTokens.FirstOrDefaultAsync(t => t.UserId == renewTokenRequest.UserId &&  t.Name == "Base", cancellationToken: cancellationToken)
+        var currentUser = _principalProvider.GetPrincipalUser();
+        var dbToken = await _dbContext.UserTokens.FirstOrDefaultAsync(t => t.UserId == currentUser.UserId &&  t.Name == "Base", cancellationToken: cancellationToken)
                       ??  throw new InvalidTokenException("Invalid token");
         ValidateToken((dbToken as UserToken)!, renewTokenRequest.RenewToken);
         var claims = new  List<Claim>{new Claim(ClaimTypes.Name, "LoggedIn"),  new Claim(ClaimTypes.Name, "User"),
-            new Claim(ClaimTypes.Actor, renewTokenRequest.UserId.ToString())};
+            new Claim(ClaimTypes.Actor, currentUser.UserId.ToString())};
         var token = await _tokenService.GenerateTokensAsync(claims);
         return new RenewTokenResponse(){AuthToken = token.AuthToken};
     }

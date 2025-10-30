@@ -55,7 +55,7 @@ public static class Auth
                         ValidateIssuerSigningKey = true,
                         RequireSignedTokens = true,
                         ValidateLifetime = true,
-                        ClockSkew = TimeSpan.FromMinutes(2),
+                        ClockSkew = TimeSpan.FromMinutes(30),
                         IssuerSigningKeyResolver = (token, securityToken, kid, validationParameters) =>
                         {
                             var keys = new List<SecurityKey>();

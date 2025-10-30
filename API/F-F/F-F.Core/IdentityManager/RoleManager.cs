@@ -1,16 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using F_F.Core.Requests.Role;
+using F_F.Database;
+using F_F.Database.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using WebWorkPlace.Core.MediatR.Commands.Role;
-using WebWorkPlace.Database;
-using WebWorkPlace.Database.Models;
 
-namespace WebWorkPlace.Core.Identity;
+namespace F_F.Core.IdentityManager;
 
 public class RoleManager : RoleManager<Role>
 {
-    private readonly ApplicationDbContext _context;
-    public RoleManager(IRoleStore<Role> store, IEnumerable<IRoleValidator<Role>> roleValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, ILogger<RoleManager<Role>> logger, ApplicationDbContext context) : base(store, roleValidators, keyNormalizer, errors, logger)
+    private readonly AuthDbContext _context;
+    public RoleManager(IRoleStore<Role> store, IEnumerable<IRoleValidator<Role>> roleValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, ILogger<RoleManager<Role>> logger, AuthDbContext context) : base(store, roleValidators, keyNormalizer, errors, logger)
     {
         _context = context;
     }
