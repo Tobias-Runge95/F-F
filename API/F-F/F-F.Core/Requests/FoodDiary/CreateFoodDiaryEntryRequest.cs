@@ -1,11 +1,11 @@
-﻿namespace F_F.Database.Models;
+﻿using F_F.Database.Models;
 
-public class FoodDiary
+namespace F_F.Core.Requests.FoodDiary;
+
+public class CreateFoodDiaryEntryRequest
 {
-    public Guid Id { get; set; }
     public Guid UserId { get; set; }
-    public DateTime Date { get; set; }
-    public Nutrition Nutrition { get; set; }
+    public Database.Models.Nutrition Nutrition { get; set; }
     public Meal Breakfast { get; set; }
     public Meal Lunch { get; set; }
     public Meal Dinner { get; set; }

@@ -1,10 +1,11 @@
-﻿namespace F_F.Database.Models;
+﻿using F_F.Database.Models;
 
-public class FoodDiary
+namespace F_F.Core.Responses.FoodDiary;
+
+public class FoodDiaryDTO
 {
     public Guid Id { get; set; }
-    public Guid UserId { get; set; }
-    public DateTime Date { get; set; }
+    public DateTime DateTime { get; set; }
     public Nutrition Nutrition { get; set; }
     public Meal Breakfast { get; set; }
     public Meal Lunch { get; set; }
