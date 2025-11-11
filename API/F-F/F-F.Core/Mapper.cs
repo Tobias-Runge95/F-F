@@ -1,4 +1,5 @@
-﻿using F_F.Core.Responses.FoodItem;
+﻿using F_F.Core.Responses.FoodDiary;
+using F_F.Core.Responses.FoodItem;
 using F_F.Core.Responses.User;
 using F_F.Core.Responses.UserData;
 using F_F.Database.Models;
@@ -48,6 +49,29 @@ public static class Mapper
             Id = foodItem.Id,
             Name = foodItem.Name,
             Nutrition = foodItem.Nutrition
+        };
+    }
+
+    public static UserDataReport ToUserDataReport(List<UserReport> userReports)
+    {
+        return new UserDataReport
+        {
+            UserReports = userReports
+        };
+    }
+
+    public static FoodDiaryDTO ToDTO(this FoodDiary foodDiary)
+    {
+        return new FoodDiaryDTO
+        {
+            Id = foodDiary.Id,
+            DateTime = foodDiary.Date,
+            Nutrition = foodDiary.Nutrition,
+            Breakfast = foodDiary.Breakfast,
+            Lunch = foodDiary.Lunch,
+            Dinner = foodDiary.Dinner,
+            Snacks = foodDiary.Snacks,
+            Water = foodDiary.Water
         };
     }
 }

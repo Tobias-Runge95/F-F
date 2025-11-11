@@ -1,6 +1,7 @@
 ﻿using F_F.Database.Models;
 using F_F.Database.Mongo;
 using MongoDB.Driver;
+using F_F.Core.Requests.UserReport;
 
 namespace F_F.Core.Repositories.Food;
 

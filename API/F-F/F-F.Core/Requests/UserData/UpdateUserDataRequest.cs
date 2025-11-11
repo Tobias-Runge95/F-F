@@ -1,6 +1,6 @@
-﻿namespace F_F.Database.Models;
+﻿namespace F_F.Core.Requests.UserData;
 
-public class UserData
+public class UpdateUserDataRequest
 {
     public Guid UserId { get; set; }
     public int Age { get; set; }
@@ -8,6 +8,4 @@ public class UserData
     public decimal Weight { get; set; }
     public decimal TargetWeight { get; set; }
     public int BodyType { get; set; }
-    public Nutrition NutritionGoal { get; set; }
-    public List<UserReport> UserReports { get; set; }
 }

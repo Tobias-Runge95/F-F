@@ -1,5 +1,6 @@
 ﻿using F_F.Core.IdentityManager;
 using F_F.Core.Repositories;
+using F_F.Core.Repositories.Food;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +15,10 @@ public static class Startup
             .AddScoped<UserManager>()
             .AddScoped<IUserRepository, UserRepository>()
             .AddScoped<IRoleRepository, RoleRepository>()
+            .AddScoped<IFoodDiaryRepository, FoodDiaryRepository>()
+            .AddScoped<IRecipeRepository,RecipeRepository>()
+            .AddScoped<IUserDataRepository, UserDataRepository>()
+            .AddScoped<IFoodItemRepository, FoodItemRepository>()
             .AddScoped<IAuthenticationManager, AuthenticationManager>();
 
     }
