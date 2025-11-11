@@ -16,11 +16,14 @@ using F_F.Database;
 using F_F.Database.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using F_F.Database.Mongo;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.RegisterKeyVault();
 builder.RegisterAuthentication();
 builder.Services.AddScoped<IPrincipalProvider, PrincipalProvider>();
+// Register MongoDB context (uses Mongo:ConnectionString & Mongo:DatabaseName)
+builder.Services.AddMongoDbContext(builder.Configuration);
 // Key Vault signing clients for TokenService
 builder.Services.AddSingleton(sp =>
 {

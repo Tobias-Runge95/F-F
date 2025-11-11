@@ -1,4 +1,5 @@
-﻿using F_F.Core.IdentityManager;
+﻿using F_F.Core;
+using F_F.Core.IdentityManager;
 using F_F.Core.Requests.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ public class UserController : ControllerBase
         //     return BadRequest(results.Errors);
         // }
         var user = await _userManager.CreateAsync(request, cancellationToken);
-        return Ok(user);
+        return Ok(user.ToDTO());
     }
 
     // [Authorize(Roles = "user, Admin")]
@@ -47,7 +48,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetUser([FromQuery] Guid userId, CancellationToken cancellationToken)
     {
         var user = await _userManager.GetUserAsync(userId, cancellationToken);
-        return Ok(user);
+        return Ok(user.ToDTO());
     }
 
     // [Authorize(Roles = "user, Admin")]

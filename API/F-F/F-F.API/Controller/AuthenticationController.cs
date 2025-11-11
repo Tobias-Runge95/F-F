@@ -14,8 +14,8 @@ public class AuthenticationController : ControllerBase
         _authenticationManager = authenticationManager;
     }
 
-    [HttpGet("login")]
-    public async Task<IActionResult> Login([FromQuery] LoginRequest loginRequest, CancellationToken cancellationToken)
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest, CancellationToken cancellationToken)
     {
         var tokens = await _authenticationManager.LoginAsync(loginRequest, cancellationToken);
         
