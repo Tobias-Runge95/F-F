@@ -1,4 +1,7 @@
-﻿using F_F.Database.Mongo;
+﻿using System.Linq.Expressions;
+using System.Reflection;
+using F_F.Database.Mongo;
+using Microsoft.Extensions.Logging.Abstractions;
 using MongoDB.Driver;
 
 namespace F_F.Core.Repositories;
@@ -12,6 +15,7 @@ public interface IBaseRepository<TEntity>
         CancellationToken cancellationToken);
     Task DeleteAsync(FilterDefinition<TEntity> filterDefinition, CancellationToken cancellationToken);
     Task DeleteManyAsync(FilterDefinition<TEntity> filterDefinition, CancellationToken cancellationToken);
+    UpdateDefinition<TEntity>? ApplyChanges<T>(T source);
 }
 
 public class BaseRepository<TEntity> : IBaseRepository<TEntity>
@@ -55,5 +59,29 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity>
     public async Task DeleteManyAsync(FilterDefinition<TEntity> filterDefinition, CancellationToken cancellationToken)
     {
         await _collection.DeleteManyAsync(filterDefinition, cancellationToken);
+    }
+    
+    public UpdateDefinition<TEntity>? ApplyChanges<T>(T source)
+    {
+        var updates = new List<UpdateDefinition<TEntity>>();
+        var props = typeof(TEntity).GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Where(p => p.CanRead && p.CanWrite);
+
+        foreach (var prop in props)
+        {
+            var newValue = prop.GetValue(source);
+            if (newValue != null)
+            {
+                // Wichtig: Nur Properties mit Werten hinzufügen
+                updates.Add(Builders<TEntity>.Update.Set(prop.Name, newValue));
+            }
+        }
+
+        if (updates.Any())
+        {
+            return Builders<TEntity>.Update.Combine(updates);
+        }
+
+        return null;
     }
 }

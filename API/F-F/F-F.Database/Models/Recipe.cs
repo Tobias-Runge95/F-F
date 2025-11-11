@@ -7,4 +7,5 @@ public class Recipe
     public List<FoodItem> FoodItems { get; set; }
     public Nutrition Nutrition { get; set; }
     public Guid UserId { get; set; }
+    public bool Public { get; set; }
 }
