@@ -1,4 +1,5 @@
-﻿using F_F.Core.Repositories.Food;
+using System.Collections.Generic;
+using F_F.Core.Repositories.Food;
 using F_F.Core.Requests.Nutrition;
 using F_F.Core.Requests.UserData;
 using F_F.Core.Requests.UserReport;
@@ -75,8 +76,23 @@ public class UserDataManager : IUserDataManager
     {
         var filter = Builders<UserData>.Filter.Eq("_id", request.UserId);
         var report = new UserReport { Date = request.Date, Weight = request.Weight };
-        var update = Builders<UserData>.Update.Push(u => u.UserReports, report);
-        await _userDataRepository.UpdateAsync(filter, update, new UpdateOptions { IsUpsert = false },
-            cancellationToken);
+        var userData = await _userDataRepository.GetByIdAsync(request.UserId, cancellationToken);
+
+        if (userData is null)
+        {
+            throw new InvalidOperationException($"UserData entry with id '{request.UserId}' was not found.");
+        }
+
+        UpdateDefinition<UserData> update;
+        if (userData.UserReports is null || userData.UserReports.Count == 0)
+        {
+            update = Builders<UserData>.Update.Set(u => u.UserReports, new List<UserReport> { report });
+        }
+        else
+        {
+            update = Builders<UserData>.Update.Push(u => u.UserReports, report);
+        }
+
+        await _userDataRepository.UpdateAsync(filter, update, new UpdateOptions { IsUpsert = false }, cancellationToken);
     }
 }
