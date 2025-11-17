@@ -1,6 +1,9 @@
 using F_F.Database.Models;
 using MongoDB.Driver;
 using System.Reflection;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace F_F.Database.Mongo;
 
@@ -20,6 +23,8 @@ public interface IMongoDbContext
 public class MongoDbContext : IMongoDbContext
 {
     private readonly IMongoDatabase _database;
+    private static bool _guidConfigured;
+    private static readonly object GuidLock = new();
 
     public MongoDbContext(MongoOptions options)
     {
@@ -27,6 +32,8 @@ public class MongoDbContext : IMongoDbContext
             throw new ArgumentException("Mongo connection string is required", nameof(options.ConnectionString));
         if (string.IsNullOrWhiteSpace(options.DatabaseName))
             throw new ArgumentException("Mongo database name is required", nameof(options.DatabaseName));
+
+        EnsureGuidRepresentation();
 
         // Ensure GUIDs use the Standard (RFC4122) representation via connection string
         var cs = options.ConnectionString;
@@ -51,6 +58,26 @@ public class MongoDbContext : IMongoDbContext
         }
         var client = new MongoClient(clientSettings);
         _database = client.GetDatabase(options.DatabaseName);
+    }
+
+    private static void EnsureGuidRepresentation()
+    {
+        if (_guidConfigured)
+        {
+            return;
+        }
+
+        lock (GuidLock)
+        {
+            if (_guidConfigured)
+            {
+                return;
+            }
+
+            BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
+            BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+            _guidConfigured = true;
+        }
     }
 
     public IMongoDatabase Database => _database;
