@@ -1,5 +1,9 @@
-﻿namespace F_F.Database.Models;
+using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
 
+namespace F_F.Database.Models;
+
+[BsonIgnoreExtraElements]
 public class UserData
 {
     public Guid UserId { get; set; }
