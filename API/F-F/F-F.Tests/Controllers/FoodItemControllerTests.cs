@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using F_F.API.Controller;
 using F_F.Core.Manager.FoodManager;
+using F_F.Core.Responses;
 using F_F.Core.Responses.FoodItem;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -30,10 +33,10 @@ public class FoodItemControllerTests
         var sut = new FoodItemController(_manager.Object);
         var id = Guid.NewGuid();
         _manager.Setup(m => m.FindById(id, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new FoodItemDTO { Id = id, Name = "Test" });
+                .ReturnsAsync(new OpenFoodFactsDTO { Id = id, ProductName = "Test" });
         var result = await sut.GetById(id, CancellationToken.None) as OkObjectResult;
         Assert.NotNull(result);
-        Assert.IsType<FoodItemDTO>(result!.Value);
+        Assert.IsType<OpenFoodFactsDTO>(result!.Value);
     }
 
     [Fact]
@@ -41,10 +44,9 @@ public class FoodItemControllerTests
     {
         var sut = new FoodItemController(_manager.Object);
         _manager.Setup(m => m.FindByBarcode("123", It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new FoodItemDTO { Id = Guid.NewGuid(), Name = "Test" });
+                .ReturnsAsync(new OpenFoodFactsDTO { Id = Guid.NewGuid(), ProductName = "Test" });
         var result = await sut.GetByBarcode("123", CancellationToken.None) as OkObjectResult;
         Assert.NotNull(result);
-        Assert.IsType<FoodItemDTO>(result!.Value);
+        Assert.IsType<OpenFoodFactsDTO>(result!.Value);
     }
 }
-
