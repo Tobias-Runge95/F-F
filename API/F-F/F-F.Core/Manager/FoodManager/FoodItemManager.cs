@@ -42,17 +42,23 @@ public class FoodItemManager :  IFoodItemManager
         var item = await _foodItemRepository.GetByBarcodeAsync(barcode, cancellationToken);
         if (item is null)
         {
-            var result = await _openFoodFactsService.GetProductAsync(barcode);
-            if (result is null)
-            {
-                throw new NotFoundException();
-            }
-            var dto = result.ToDTO();
-            _ = Task.Run(() => CreateItemAsync(dto), CancellationToken.None);
-
-            return dto;
+            // Run the fetch/persist path without the request cancellation token,
+            // so it still completes even if the HTTP request is aborted.
+            return await FetchAndPersistAsync(barcode);
         }
         return item.ToDTO();
+    }
+
+    private async Task<OpenFoodFactsDTO> FetchAndPersistAsync(string barcode)
+    {
+        var result = await _openFoodFactsService.GetProductAsync(barcode, CancellationToken.None);
+        if (result is null)
+        {
+            throw new NotFoundException();
+        }
+        var dto = result.ToDTO();
+        await CreateItemAsync(dto);
+        return dto;
     }
 
     private async Task CreateItemAsync(OpenFoodFactsDTO item)
