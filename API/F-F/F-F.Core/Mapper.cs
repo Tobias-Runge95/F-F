@@ -86,6 +86,16 @@ public static class Mapper
 
     public static OpenFoodFactsDTO ToDTO(this OpenFoodFacts foodFacts)
     {
+        if (foodFacts?.Product is null)
+        {
+            return new OpenFoodFactsDTO
+            {
+                Images = new List<string>(),
+                Ingredients = new List<Ingredient>(),
+                Nutriments = new Nutriments()
+            };
+        }
+
         var images = new List<string>();
         if (!string.IsNullOrWhiteSpace(foodFacts.Product.image_front_url)) images.Add(foodFacts.Product.image_front_url);
         if (!string.IsNullOrWhiteSpace(foodFacts.Product.image_url)) images.Add(foodFacts.Product.image_url);
@@ -102,8 +112,8 @@ public static class Mapper
             ProductName = foodFacts.Product.product_name,
             Quantity = foodFacts.Product.quantity,
             Images = images,
-            Ingredients = foodFacts.Product.ingredients,
-            Nutriments = foodFacts.Product.nutriments
+            Ingredients = foodFacts.Product.ingredients ?? new List<Ingredient>(),
+            Nutriments = foodFacts.Product.nutriments ?? new Nutriments()
         };
     }
 }
