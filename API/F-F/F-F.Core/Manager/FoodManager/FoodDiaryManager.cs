@@ -71,17 +71,28 @@ public class FoodDiaryManager :  IFoodDiaryManager
 
     public async Task<List<FoodDiaryDTO>> GetRange(FoodDiaryGetRangeRequest request, CancellationToken cancellationToken)
     {  
+        var startDate = request.Start.Date;
+        var endDate = request.End.Date;
+
         var userFilter = Builders<FoodDiary>.Filter.Eq(d => d.UserId, request.UserId);
-        var fromFilter = Builders<FoodDiary>.Filter.Gte(d => d.Date, request.Start);
-        var toFilter = Builders<FoodDiary>.Filter.Lte(d => d.Date, request.End);
+        var fromFilter = Builders<FoodDiary>.Filter.Gte(d => d.Date, startDate);
+        var toFilter = Builders<FoodDiary>.Filter.Lt(d => d.Date, endDate.AddDays(1));
         var filter = Builders<FoodDiary>.Filter.And(userFilter, fromFilter, toFilter);
         var list = await _repository.GetTimespanFromUserAsync(filter, cancellationToken);
         if (list.Count < 6)
         {
             var existingDates = list.Select(d => d.Date.Date).ToHashSet();
-            for (var date = request.Start.Date; date <= request.End.Date && list.Count < 6; date = date.AddDays(1))
+            for (var date = startDate; date <= endDate && list.Count < 6; date = date.AddDays(1))
             {
-                if (existingDates.Contains(date))
+                // double-check via DB to avoid duplicates if time zones differ
+                if (existingDates.Contains(date) ||
+                    (await _repository.GetTimespanFromUserAsync(
+                        Builders<FoodDiary>.Filter.And(
+                            Builders<FoodDiary>.Filter.Eq(d => d.UserId, request.UserId),
+                            Builders<FoodDiary>.Filter.Gte(d => d.Date, date),
+                            Builders<FoodDiary>.Filter.Lt(d => d.Date, date.AddDays(1))
+                        ),
+                        cancellationToken)).Any())
                 {
                     continue;
                 }
