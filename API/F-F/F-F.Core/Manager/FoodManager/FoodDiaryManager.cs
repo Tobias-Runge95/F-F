@@ -73,6 +73,34 @@ public class FoodDiaryManager :  IFoodDiaryManager
         var toFilter = Builders<FoodDiary>.Filter.Lte(d => d.Date, request.End);
         var filter = Builders<FoodDiary>.Filter.And(userFilter, fromFilter, toFilter);
         var list = await _repository.GetTimespanFromUserAsync(filter, cancellationToken);
-        return list.Select(entry => entry.ToDTO()).ToList();
+        if (list.Count < 6)
+        {
+            var existingDates = list.Select(d => d.Date.Date).ToHashSet();
+            for (var date = request.Start.Date; date <= request.End.Date && list.Count < 6; date = date.AddDays(1))
+            {
+                if (existingDates.Contains(date))
+                {
+                    continue;
+                }
+
+                var newEntry = new FoodDiary
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = request.UserId,
+                    Date = date,
+                    Nutrition = new Nutrition(),
+                    Breakfast = new Meal(),
+                    Lunch = new Meal(),
+                    Dinner = new Meal(),
+                    Snacks = new Meal(),
+                    Water = 0
+                };
+
+                await _repository.AddAsync(newEntry, cancellationToken);
+                list.Add(newEntry);
+                existingDates.Add(date);
+            }
+        }
+        return list.OrderBy(d => d.Date).Select(entry => entry.ToDTO()).ToList();
     }
 }
