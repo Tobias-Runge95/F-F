@@ -1,4 +1,5 @@
-﻿using F_F.Core.Responses.FoodDiary;
+﻿using F_F.Core.Responses;
+using F_F.Core.Responses.FoodDiary;
 using F_F.Core.Responses.FoodItem;
 using F_F.Core.Responses.User;
 using F_F.Core.Responses.UserData;
@@ -38,17 +39,7 @@ public static class Mapper
         return new SmallFoodItemDTO
         {
             Id = foodItem.Id,
-            Name = foodItem.Name,
-        };
-    }
-
-    public static FoodItemDTO ToDTO(this FoodItem foodItem)
-    {
-        return new FoodItemDTO
-        {
-            Id = foodItem.Id,
-            Name = foodItem.Name,
-            Nutrition = foodItem.Nutrition
+            Name = foodItem.ProductName,
         };
     }
 
@@ -72,6 +63,47 @@ public static class Mapper
             Dinner = foodDiary.Dinner,
             Snacks = foodDiary.Snacks,
             Water = foodDiary.Water
+        };
+    }
+
+    public static OpenFoodFactsDTO ToDTO(this FoodItem foodItem)
+    {
+        return new OpenFoodFactsDTO
+        {
+            Brand = foodItem.Brand,
+            Code = foodItem.Code,
+            IngredientsText = foodItem.IngredientsText,
+            NutritionDataPer = foodItem.NutritionDataPer,
+            NutrotionGrades = foodItem.NutrotionGrades,
+            ProductName = foodItem.ProductName,
+            Quantity = foodItem.Quantity,
+            Nutriments = foodItem.Nutriments,
+            Images = foodItem.Images,
+            Ingredients = foodItem.Ingredients,
+            Id = foodItem.Id
+        };
+    }
+
+    public static OpenFoodFactsDTO ToDTO(this OpenFoodFacts foodFacts)
+    {
+        var images = new List<string>();
+        if (!string.IsNullOrWhiteSpace(foodFacts.Product.image_front_url)) images.Add(foodFacts.Product.image_front_url);
+        if (!string.IsNullOrWhiteSpace(foodFacts.Product.image_url)) images.Add(foodFacts.Product.image_url);
+        if (!string.IsNullOrWhiteSpace(foodFacts.Product.image_ingredients_url)) images.Add(foodFacts.Product.image_ingredients_url);
+        if (!string.IsNullOrWhiteSpace(foodFacts.Product.image_nutrition_url)) images.Add(foodFacts.Product.image_nutrition_url);
+
+        return new OpenFoodFactsDTO
+        {
+            Brand = foodFacts.Product.brands,
+            Code = foodFacts.Product.code,
+            IngredientsText = foodFacts.Product.ingredients_text,
+            NutritionDataPer = foodFacts.Product.nutrition_data_per,
+            NutrotionGrades = foodFacts.Product.nutrition_grades,
+            ProductName = foodFacts.Product.product_name,
+            Quantity = foodFacts.Product.quantity,
+            Images = images,
+            Ingredients = foodFacts.Product.ingredients,
+            Nutriments = foodFacts.Product.nutriments
         };
     }
 }
