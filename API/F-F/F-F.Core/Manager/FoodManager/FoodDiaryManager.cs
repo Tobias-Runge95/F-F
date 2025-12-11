@@ -13,6 +13,7 @@ public interface IFoodDiaryManager
     Task UpdateEntry(UpdateFoodDiaryEntryRequest request, CancellationToken cancellationToken);
     Task<FoodDiaryDTO> GetEntry(DateTime entryDate, Guid userId, CancellationToken cancellationToken);
     Task<List<FoodDiaryDTO>> GetRange(FoodDiaryGetRangeRequest request, CancellationToken cancellationToken);
+    Task<FoodDiaryDTO?> AddFoodItemToMeal(AddFoodItemToMealRequest request, CancellationToken cancellationToken);
 }
 
 public class FoodDiaryManager :  IFoodDiaryManager
@@ -102,5 +103,58 @@ public class FoodDiaryManager :  IFoodDiaryManager
             }
         }
         return list.OrderBy(d => d.Date).Select(entry => entry.ToDTO()).ToList();
+    }
+
+    public async Task<FoodDiaryDTO?> AddFoodItemToMeal(AddFoodItemToMealRequest request, CancellationToken cancellationToken)
+    {
+        var filter = Builders<FoodDiary>.Filter.And(
+            Builders<FoodDiary>.Filter.Eq(d => d.Id, request.FoodDiaryId),
+            Builders<FoodDiary>.Filter.Eq(d => d.UserId, request.UserId));
+
+        // reuse repository method to fetch by filter
+        var diaryList = await _repository.GetTimespanFromUserAsync(filter, cancellationToken);
+        var diary = diaryList.FirstOrDefault();
+        if (diary is null)
+        {
+            return null;
+        }
+
+        var meal = request.Meal.ToLower() switch
+        {
+            "breakfast" => diary.Breakfast ??= new Meal(),
+            "lunch" => diary.Lunch ??= new Meal(),
+            "dinner" => diary.Dinner ??= new Meal(),
+            "snacks" => diary.Snacks ??= new Meal(),
+            _ => throw new ArgumentException($"Unsupported meal '{request.Meal}'")
+        };
+
+        meal.FoodITems ??= new List<FoodItem>();
+        meal.FoodITems.Add(request.Item);
+
+        // Recompute simple macro nutrition for the meal
+        var carbs = meal.FoodITems.Sum(i => (decimal?)(i.Nutriments?.carbohydrates ?? 0) ?? 0);
+        var fats = meal.FoodITems.Sum(i => (decimal?)(i.Nutriments?.fat ?? 0) ?? 0);
+        var proteins = meal.FoodITems.Sum(i => (decimal?)(i.Nutriments?.proteins ?? 0) ?? 0);
+        meal.Nutrition = new Nutrition
+        {
+            Carbs = (int)Math.Round(carbs),
+            Fats = (int)Math.Round(fats),
+            Protein = (int)Math.Round(proteins)
+        };
+
+        // Persist only the changed meal
+        UpdateDefinition<FoodDiary> update = request.Meal.ToLower() switch
+        {
+            "breakfast" => Builders<FoodDiary>.Update.Set(d => d.Breakfast, meal),
+            "lunch" => Builders<FoodDiary>.Update.Set(d => d.Lunch, meal),
+            "dinner" => Builders<FoodDiary>.Update.Set(d => d.Dinner, meal),
+            "snacks" => Builders<FoodDiary>.Update.Set(d => d.Snacks, meal),
+            _ => throw new ArgumentException($"Unsupported meal '{request.Meal}'")
+        };
+
+        await _repository.UpdateAsync(filter, update, null, cancellationToken);
+
+        // Return updated diary (in-memory instance already updated)
+        return diary.ToDTO();
     }
 }
