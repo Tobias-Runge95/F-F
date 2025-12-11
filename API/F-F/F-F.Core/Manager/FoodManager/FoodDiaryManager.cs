@@ -3,7 +3,9 @@ using F_F.Core.Requests.FoodDiary;
 using F_F.Core.Responses.FoodDiary;
 using F_F.Database.Models;
 using MongoDB.Driver;
+using System.Collections.Generic;
 using System.Linq;
+using F_F.Core.Responses;
 
 namespace F_F.Core.Manager.FoodManager;
 
@@ -131,16 +133,8 @@ public class FoodDiaryManager :  IFoodDiaryManager
         meal.FoodITems ??= new List<FoodItem>();
         meal.FoodITems.Add(request.Item);
 
-        // Recompute simple macro nutrition for the meal
-        var carbs = meal.FoodITems.Sum(i => (decimal?)(i.Nutriments?.carbohydrates ?? 0) ?? 0);
-        var fats = meal.FoodITems.Sum(i => (decimal?)(i.Nutriments?.fat ?? 0) ?? 0);
-        var proteins = meal.FoodITems.Sum(i => (decimal?)(i.Nutriments?.proteins ?? 0) ?? 0);
-        meal.Nutrition = new Nutrition
-        {
-            Carbs = (int)Math.Round(carbs),
-            Fats = (int)Math.Round(fats),
-            Protein = (int)Math.Round(proteins)
-        };
+        // Recompute nutriments for the meal from all food items
+        meal.Nutrition = SumNutriments(meal.FoodITems);
 
         // Persist only the changed meal
         UpdateDefinition<FoodDiary> update = request.Meal.ToLower() switch
@@ -156,5 +150,31 @@ public class FoodDiaryManager :  IFoodDiaryManager
 
         // Return updated diary (in-memory instance already updated)
         return diary.ToDTO();
+    }
+
+    private static Nutriments SumNutriments(IEnumerable<FoodItem> items)
+    {
+        var result = new Nutriments();
+
+        foreach (var i in items.Where(x => x?.Nutriments != null))
+        {
+            var n = i.Nutriments;
+            result.carbohydrates = (result.carbohydrates ?? 0) + (n.carbohydrates ?? 0);
+            result.carbohydrates_100g = (result.carbohydrates_100g ?? 0) + (n.carbohydrates_100g ?? 0);
+            result.energy = (result.energy ?? 0) + (n.energy ?? 0);
+            result.energy_kcal = (result.energy_kcal ?? 0) + (n.energy_kcal ?? 0);
+            result.fat = (result.fat ?? 0) + (n.fat ?? 0);
+            result.fat_100g = (result.fat_100g ?? 0) + (n.fat_100g ?? 0);
+            result.proteins = (result.proteins ?? 0) + (n.proteins ?? 0);
+            result.proteins_100g = (result.proteins_100g ?? 0) + (n.proteins_100g ?? 0);
+            result.salt = (result.salt ?? 0) + (n.salt ?? 0);
+            result.salt_100g = (result.salt_100g ?? 0) + (n.salt_100g ?? 0);
+            result.saturated_fat = (result.saturated_fat ?? 0) + (n.saturated_fat ?? 0);
+            result.saturated_fat_100g = (result.saturated_fat_100g ?? 0) + (n.saturated_fat_100g ?? 0);
+            result.sugars = (result.sugars ?? 0) + (n.sugars ?? 0);
+            result.sugars_100g = (result.sugars_100g ?? 0) + (n.sugars_100g ?? 0);
+        }
+
+        return result;
     }
 }
