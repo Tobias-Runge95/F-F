@@ -17,6 +17,7 @@ using F_F.Database.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using F_F.Database.Mongo;
+using F_F.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.RegisterKeyVault();
@@ -68,6 +69,8 @@ builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
