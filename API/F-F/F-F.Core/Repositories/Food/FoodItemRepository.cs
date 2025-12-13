@@ -7,7 +7,7 @@ namespace F_F.Core.Repositories.Food;
 public interface IFoodItemRepository : IBaseRepository<FoodItem>
 {
     Task<List<FoodItem>> SearchByNameAsync(string name, CancellationToken cancellationToken);
-    Task<FoodItem> GetByBarcodeAsync(string barcode, CancellationToken cancellationToken);
+    Task<FoodItem?> GetByBarcodeAsync(string barcode, CancellationToken cancellationToken);
     Task<FoodItem> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 }
 
@@ -19,13 +19,13 @@ public class FoodItemRepository :  BaseRepository<FoodItem>, IFoodItemRepository
 
     public async Task<List<FoodItem>> SearchByNameAsync(string name, CancellationToken cancellationToken)
     {
-        var filter = Builders<FoodItem>.Filter.Eq(x => x.Name, name);
+        var filter = Builders<FoodItem>.Filter.Regex(x => x.ProductName, new MongoDB.Bson.BsonRegularExpression(name, "i"));
         return await _collection.Find(filter).ToListAsync(cancellationToken);
     }
 
-    public async Task<FoodItem> GetByBarcodeAsync(string barcode, CancellationToken cancellationToken)
+    public async Task<FoodItem?> GetByBarcodeAsync(string barcode, CancellationToken cancellationToken)
     {
-        var filter = Builders<FoodItem>.Filter.Eq(x => x.Barcode, barcode);
+        var filter = Builders<FoodItem>.Filter.Eq(x => x.Code, barcode);
         return await _collection.Find(filter).FirstOrDefaultAsync(cancellationToken);
     }
 
